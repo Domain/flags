@@ -38,7 +38,7 @@ struct parser {
  private:
   // Advance the state machine for the current token.
   void churn(const std::string_view& item) {
-    item.at(0) == '-' ? on_option(item) : on_value(item);
+    (item.length() > 1 && item.at(0) == '-') ? on_option(item) : on_value(item);
   }
 
   // Consumes the current option if there is one.
@@ -78,7 +78,7 @@ struct parser {
   argument_map options_;
   std::vector<std::string_view> positional_arguments_;
 };
-
+ 
 // If a key exists, return an optional populated with its value.
 inline std::optional<std::string_view> get_value(
     const argument_map& options, const std::string_view& option) {
